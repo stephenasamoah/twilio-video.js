@@ -527,7 +527,7 @@ async function waitOnceForRoomEvent(room, event) {
  * @returns {Promise<any>}
  */
 let waitId = 101;
-async function waitFor(promiseOrArray, message, timeoutMS = 30 * second, verbose = false) {
+async function waitFor(promiseOrArray, message, timeoutMS = 30 * second, verbose = true) {
   const thisWaitId = waitId++;
   if (verbose) {
     // eslint-disable-next-line no-console

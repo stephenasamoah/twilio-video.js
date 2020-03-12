@@ -14,15 +14,9 @@ const {
   waitToGoOffline,
   waitToGoOnline,
   smallVideoConstraints,
-  waitFor: waitForOriginal,
+  waitFor,
   waitOnceForRoomEvent
 } = require('../../../lib/util');
-
-
-const second = 1000;
-function waitFor(promiseOrArray, message, timeoutMS = 30 * second, verbose = true) {
-  return waitForOriginal(promiseOrArray, message, timeoutMS, verbose);
-}
 
 const DockerProxyClient = require('../../../../docker/dockerProxyClient');
 const { connect } = require('../../../../lib');
@@ -83,6 +77,7 @@ async function setup(setupOptions) {
       audio: true,
       fake: true,
       name: sid,
+      logLevel: 'info',
       video: smallVideoConstraints
     }, options, defaults);
 
