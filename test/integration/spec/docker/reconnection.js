@@ -102,7 +102,7 @@ async function setup(setupOptions) {
       await waitFor(waitForTracksToStart(room, nTracks), `${sid}: ${nTracks} Tracks started`);
     }
     return room;
-  }), `Rooms to get connected, and Tracks to be started: ${sid}`);
+  }), `Rooms to get connected, and Tracks to be started: ${sid}`, 3 * ONE_MINUTE);
 }
 
 function getTotalBytesReceived(statReports) {
@@ -145,7 +145,7 @@ function readCurrentNetworks(dockerAPI) {
   return waitFor(dockerAPI.getCurrentNetworks(), 'getCurrentNetworks');
 }
 
-describe('Reconnection states and events', function() {
+describe('network:', function() {
   // eslint-disable-next-line no-invalid-this
   this.timeout(8 * ONE_MINUTE);
   let dockerAPI = new DockerProxyClient();
@@ -249,7 +249,7 @@ describe('Reconnection states and events', function() {
         await waitToGoOnline();
         currentNetworks = await readCurrentNetworks(dockerAPI);
         const setupOptions = identities.map(identity => ({ identity }));
-        rooms = await waitFor(setup(setupOptions), 'setup Rooms');
+        rooms = await setup(setupOptions);
       });
 
       afterEach(async () => {
@@ -470,7 +470,7 @@ describe('Reconnection states and events', function() {
       // NOTE(mmalavalli): We can simulate ICE gathering timeout by forcing TURN
       // relay and passing an empty RTCIceServers[]. This way, no relay candidates
       // are gathered, and should force an ICE gathering timeout.
-      [room] = await waitFor(setup(setupOptions), 'Room setup', ONE_MINUTE, true /* verbose */);
+      [room] = await setup(setupOptions);
     });
 
     it('should transition Room .state to "reconnecting" for the first timeout', async () => {

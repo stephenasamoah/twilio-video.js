@@ -103,7 +103,8 @@ function makeConf(defaultFile, browserNoActivityTimeout, requires) {
       files,
       preprocessors,
       browserify: {
-        debug: !!process.env.DEBUG,
+        // debug: !!process.env.DEBUG,
+        debug: true,
         transform: [
           'envify'
         ]
