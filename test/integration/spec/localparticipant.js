@@ -351,13 +351,6 @@ describe('LocalParticipant', function() {
       ]
     ], ([isEnabled, kind, withName, priority, when]) => {
       // eslint-disable-next-line no-warning-comments
-      // TODO(mmalavalli): Enable this scenario for Firefox when the following
-      // bug is fixed: https://bugzilla.mozilla.org/show_bug.cgi?id=1526253
-      if (isFirefox && kind === 'data' && when === 'previously') {
-        return;
-      }
-
-      // eslint-disable-next-line no-warning-comments
       // TODO(mmalavalli): Until we find out why Travis is failing tests due
       // to not being able to create enough RTCPeerConnections, we will enable
       // testing for only when priority is set to "high". (JSDK-2417)
@@ -646,16 +639,6 @@ describe('LocalParticipant', function() {
         _x => defaults.topology === 'peer-to-peer' ? '(@unstable)' : ''
       ]
     ], ([isEnabled, kind, when]) => {
-      // eslint-disable-next-line no-warning-comments
-      // TODO(mmalavalli): Enable this scenario for Firefox when the following
-      // bug is fixed: https://bugzilla.mozilla.org/show_bug.cgi?id=1526253
-      // eslint-disable-next-line no-warning-comments
-      // TODO(mmalavalli): Disabling DataTracks for Firefox P2P due to this
-      // bug: JSDK-2630. Re-enable once fixed.
-      if (isFirefox && kind === 'data' && (when !== 'published' || defaults.topology === 'peer-to-peer')) {
-        return;
-      }
-
       let sid;
       let thisRoom;
       let thisParticipant;

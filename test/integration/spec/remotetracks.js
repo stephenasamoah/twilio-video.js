@@ -9,7 +9,6 @@ const { completeRoom, createRoom } = require('../../lib/rest');
 const { audio: createLocalAudioTrack, video: createLocalVideoTrack } = require('../../../lib/createlocaltrack');
 const connect = require('../../../lib/connect');
 const getToken = require('../../lib/token');
-const { isFirefox } = require('../../lib/guessbrowser');
 
 const {
   combinationContext,
@@ -248,7 +247,7 @@ describe('RemoteVideoTrack', function() {
   });
 });
 
-(isFirefox && defaults.topology === 'peer-to-peer' ? describe.skip : describe)('RemoteDataTrack', function() {
+describe('RemoteDataTrack', function() {
   // eslint-disable-next-line no-invalid-this
   this.timeout(60000);
 

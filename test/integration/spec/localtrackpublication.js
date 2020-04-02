@@ -20,7 +20,6 @@ const { flatMap } = require('../../../lib/util');
 const { createRoom, completeRoom } = require('../../lib/rest');
 const defaults = require('../../lib/defaults');
 const getToken = require('../../lib/token');
-const { isFirefox } = require('../../lib/guessbrowser');
 
 const {
   capitalize,
@@ -176,16 +175,6 @@ describe('LocalTrackPublication', function() {
         _x => defaults.topology === 'peer-to-peer' ? '(@unstable)' : ''
       ]
     ], ([isEnabled, kind, when]) => {
-      // eslint-disable-next-line no-warning-comments
-      // TODO(mmalavalli): Enable this scenario for Firefox when the following
-      // bug is fixed: https://bugzilla.mozilla.org/show_bug.cgi?id=1526253
-      // eslint-disable-next-line no-warning-comments
-      // TODO(mmalavalli): Disabling DataTracks for Firefox P2P due to this
-      // bug: JSDK-2630. Re-enable once fixed.
-      if (isFirefox && kind === 'data' && (when !== 'published' || defaults.topology === 'peer-to-peer')) {
-        return;
-      }
-
       let sid;
       let thisRoom;
       let thisParticipant;
