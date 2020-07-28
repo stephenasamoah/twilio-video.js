@@ -40,6 +40,10 @@ function generateReportName(files) {
 }
 
 function makeConf(defaultFile, browserNoActivityTimeout, requires) {
+  // captureTimeout: 210000,
+  // browserDisconnectTolerance: 3,
+  // browserDisconnectTimeout : 210000,
+  // browserNoActivityTimeout : 210000,
   const browserDisconnectTimeout = 10000;
   browserNoActivityTimeout = browserNoActivityTimeout || 30000;
   if (isDocker) {
@@ -136,8 +140,12 @@ function makeConf(defaultFile, browserNoActivityTimeout, requires) {
       browsers,
       singleRun: !process.env.DEBUG,
       concurrency: 1,
-      browserNoActivityTimeout,
-      browserDisconnectTimeout,
+      // browserNoActivityTimeout,
+      // browserDisconnectTimeout,
+      captureTimeout: 210000,
+      browserDisconnectTolerance: 3,
+      browserDisconnectTimeout: 210000,
+      browserNoActivityTimeout: 210000,
       customLaunchers: {
         ChromeInDocker: {
           base: 'ChromeHeadless',
