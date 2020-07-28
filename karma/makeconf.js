@@ -142,10 +142,10 @@ function makeConf(defaultFile, browserNoActivityTimeout, requires) {
       concurrency: 1,
       // browserNoActivityTimeout,
       // browserDisconnectTimeout,
-      captureTimeout: 210000,
-      browserDisconnectTolerance: 3,
-      browserDisconnectTimeout: 210000,
-      browserNoActivityTimeout: 210000,
+      captureTimeout: 60000,
+      browserDisconnectTolerance: 2,
+      browserDisconnectTimeout: 60000,
+      browserNoActivityTimeout: 60000,
       customLaunchers: {
         ChromeInDocker: {
           base: 'ChromeHeadless',

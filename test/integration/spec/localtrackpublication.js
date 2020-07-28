@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 'use strict';
 
 const assert = require('assert');
@@ -90,7 +91,7 @@ describe('LocalTrackPublication', function() {
   });
 
   it('JSDK-2565: Can enable, disable and re-enable the track', async () => {
-    const [, thisRoom, thoseRooms] = await waitFor(setup({}), 'rooms connected and tracks subscribed');
+    const [, thisRoom, thoseRooms] = await waitFor(setup({}), 'rooms connected and tracks subscribed', 20000, true);
     const aliceRoom = thoseRooms[0];
     const aliceLocal = aliceRoom.localParticipant;
 
@@ -98,14 +99,19 @@ describe('LocalTrackPublication', function() {
     const aliceLocalAudioTrack = aliceLocalAudioTrackPublication.track;
 
     // wait for things to stabilize.
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    await waitForSometime(5000);
+    console.log('done waiting for 5000');
 
+    console.log('waiting for trackDisabled');
     aliceLocalAudioTrack.disable();
     await waitOnceForRoomEvent(thisRoom, 'trackDisabled');
 
+    console.log('waiting for trackEnabled');
     aliceLocalAudioTrack.enable();
     await waitOnceForRoomEvent(thisRoom, 'trackEnabled');
 
+
+    console.log('waiting for trackDisabled again');
     aliceLocalAudioTrack.disable();
     await waitOnceForRoomEvent(thisRoom, 'trackDisabled');
 
