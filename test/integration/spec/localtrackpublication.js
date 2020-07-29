@@ -90,7 +90,7 @@ describe('LocalTrackPublication', function() {
     bobRoom.disconnect();
   });
 
-  [true, false].forEach(debugOption => {
+  [false, true].forEach(debugOption => {
     it('JSDK-2565: Can enable, disable and re-enable the track', async () => {
       const debugLevelOption = debugOption ? { logLevel: 'debug' } : {};
       const [, thisRoom, thoseRooms] = await waitFor(setup({
