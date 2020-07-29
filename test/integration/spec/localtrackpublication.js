@@ -90,45 +90,35 @@ describe('LocalTrackPublication', function() {
     bobRoom.disconnect();
   });
 
-  [false, true].forEach(debugOption => {
-    it('JSDK-2565: Can enable, disable and re-enable the track', async () => {
-      const debugLevelOption = debugOption ? { logLevel: 'debug' } : {};
-      const [, thisRoom, thoseRooms] = await waitFor(setup({
-        testOptions: debugLevelOption,
-        otherOptions: debugLevelOption
-      }), 'rooms connected and tracks subscribed', 20000, true);
-      const aliceRoom = thoseRooms[0];
-      const aliceLocal = aliceRoom.localParticipant;
+  it('JSDK-2565: Can enable, disable and re-enable the track', async () => {
+    const [, thisRoom, thoseRooms] = await waitFor(setup({}), 'rooms connected and tracks subscribed');
+    const aliceRoom = thoseRooms[0];
+    const aliceLocal = aliceRoom.localParticipant;
 
-      const aliceLocalAudioTrackPublication =  [...aliceLocal.audioTracks.values()][0];
-      const aliceLocalAudioTrack = aliceLocalAudioTrackPublication.track;
+    const aliceLocalAudioTrackPublication =  [...aliceLocal.audioTracks.values()][0];
+    const aliceLocalAudioTrack = aliceLocalAudioTrackPublication.track;
 
-      console.log('roomSid: ', thisRoom.sid);
+    console.log('roomsid:', thisRoom.sid);
+    // wait for things to stabilize.
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
-      // wait for things to stabilize.
-      await waitForSometime(5000);
-      console.log('done waiting for 5000');
+    console.log('disabling audio:', thisRoom.sid);
+    aliceLocalAudioTrack.disable();
+    console.log('done disabling audio:', thisRoom.sid);
+    await waitOnceForRoomEvent(thisRoom, 'trackDisabled');
+    console.log('done waiting for trackDisabled:', thisRoom.sid);
 
-      console.log('disabling track');
-      aliceLocalAudioTrack.disable();
-      console.log('done disabling track');
+    aliceLocalAudioTrack.enable();
+    console.log('done enable:', thisRoom.sid);
+    await waitOnceForRoomEvent(thisRoom, 'trackEnabled');
+    console.log('done waiting for enable:', thisRoom.sid);
 
-      console.log('waiting for trackDisabled');
-      await waitOnceForRoomEvent(thisRoom, 'trackDisabled');
-      console.log('done waiting for trackDisabled');
+    aliceLocalAudioTrack.disable();
+    console.log('done disable', thisRoom.sid);
+    await waitOnceForRoomEvent(thisRoom, 'trackDisabled');
+    console.log('done waiting for disable', thisRoom.sid);
 
-      console.log('waiting for trackEnabled');
-      aliceLocalAudioTrack.enable();
-      console.log('done with waiting for trackEnabled');
-      await waitOnceForRoomEvent(thisRoom, 'trackEnabled');
-
-
-      console.log('waiting for trackDisabled again');
-      aliceLocalAudioTrack.disable();
-      await waitOnceForRoomEvent(thisRoom, 'trackDisabled');
-
-      [thisRoom, ...thoseRooms].forEach(room => room && room.disconnect());
-    });
+    [thisRoom, ...thoseRooms].forEach(room => room && room.disconnect());
   });
 
   [true, false].forEach(trackInitiallyEnabled => {
