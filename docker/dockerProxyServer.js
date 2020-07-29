@@ -64,6 +64,7 @@ class DockerProxyServer {
           const data = await this[handleRequest](params);
           return res.send(data);
         } catch (err) {
+          console.log('Error: handleRequest: ', handleRequest, params, err);
           return next(err);
         }
       });
@@ -117,9 +118,13 @@ class DockerProxyServer {
 
   // resets network to default state
   async _resetNetwork() {
+    console.log('calling _disconnectFromAllNetworks');
     await this._disconnectFromAllNetworks();
+    console.log('calling _connectToDefaultNetwork');
     await this._connectToDefaultNetwork();
+    console.log('calling _pruneNetworks');
     await this._pruneNetworks();
+    console.log('done with  _resetNetwork');
   }
 
   // removes all unused networks (created by this instance)
