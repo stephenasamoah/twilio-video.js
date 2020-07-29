@@ -91,7 +91,7 @@ describe('LocalTrackPublication', function() {
   });
 
   [true, false].forEach(debugOption => {
-    it.only('JSDK-2565: Can enable, disable and re-enable the track', async () => {
+    it('JSDK-2565: Can enable, disable and re-enable the track', async () => {
       const debugLevelOption = debugOption ? { logLevel: 'debug' } : {};
       const [, thisRoom, thoseRooms] = await waitFor(setup({
         testOptions: debugLevelOption,
@@ -129,7 +129,7 @@ describe('LocalTrackPublication', function() {
 
       [thisRoom, ...thoseRooms].forEach(room => room && room.disconnect());
     });
-  })
+  });
 
   [true, false].forEach(trackInitiallyEnabled => {
     it(`JSDK-2603: ${trackInitiallyEnabled ? 'trackEnabled' : 'trackDisabled'} should fire only on change`, async () => {

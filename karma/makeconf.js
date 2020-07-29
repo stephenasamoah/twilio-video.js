@@ -44,7 +44,7 @@ function makeConf(defaultFile, browserNoActivityTimeout, requires) {
   // browserDisconnectTolerance: 3,
   // browserDisconnectTimeout : 210000,
   // browserNoActivityTimeout : 210000,
-  const browserDisconnectTimeout = 10000;
+  // const browserDisconnectTimeout = 10000;
   browserNoActivityTimeout = browserNoActivityTimeout || 30000;
   if (isDocker) {
     // things go slow in docker for network tests
