@@ -54,7 +54,8 @@ then
 else
     # ask circleci to split tests by timing.
     echo "Asking circleci to pick tests based on timings..."
-    export TEST_FILES=$PWD/test/integration/spec/localtrackpublication.js
+    # export TEST_FILES=$PWD/test/integration/spec/localtrackpublication.js
+    export TEST_FILES=$(circleci tests glob "$PWD/test/integration/spec/**/*.js" | circleci tests split --split-by=timings)
     echo $TEST_FILES
     npm run test:integration
 fi
