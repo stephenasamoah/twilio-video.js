@@ -91,23 +91,34 @@ describe('LocalTrackPublication', function() {
   });
 
   it('JSDK-2565: Can enable, disable and re-enable the track', async () => {
-    const [, thisRoom, thoseRooms] = await waitFor(setup({}), 'rooms connected and tracks subscribed', 20000, true);
+    const debugLevelOption = { logLevel: 'debug' };
+    const [, thisRoom, thoseRooms] = await waitFor(setup({
+      testOptions: debugLevelOption,
+      otherOptions: debugLevelOption
+    }), 'rooms connected and tracks subscribed', 20000, true);
     const aliceRoom = thoseRooms[0];
     const aliceLocal = aliceRoom.localParticipant;
 
     const aliceLocalAudioTrackPublication =  [...aliceLocal.audioTracks.values()][0];
     const aliceLocalAudioTrack = aliceLocalAudioTrackPublication.track;
 
+    console.log('roomSid: ', thisRoom.sid);
+
     // wait for things to stabilize.
     await waitForSometime(5000);
     console.log('done waiting for 5000');
 
-    console.log('waiting for trackDisabled');
+    console.log('disabling track');
     aliceLocalAudioTrack.disable();
+    console.log('done disabling track');
+
+    console.log('waiting for trackDisabled');
     await waitOnceForRoomEvent(thisRoom, 'trackDisabled');
+    console.log('done waiting for trackDisabled');
 
     console.log('waiting for trackEnabled');
     aliceLocalAudioTrack.enable();
+    console.log('done with waiting for trackEnabled');
     await waitOnceForRoomEvent(thisRoom, 'trackEnabled');
 
 
