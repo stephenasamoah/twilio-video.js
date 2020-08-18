@@ -31,13 +31,25 @@ function runFrameworkTest(options) {
     let token;
 
     before(() => {
-      server = spawn(start.command, start.args, {
-        cwd: path,
-        detached: true,
-        // eslint-disable-next-line no-process-env
-        env: Object.assign({}, start.env, process.env),
-        stdio: 'inherit'
-      });
+      try {
+        console.log('makarand: spawning: ', start.command, start.args, {
+          cwd: path,
+          detached: true,
+          stdio: 'inherit'
+        });
+        server = spawn(start.command, start.args, {
+          cwd: path,
+          detached: true,
+          stdio: 'inherit'
+        });
+        server.on('close', code => {
+          console.log(`child process exited with code ${code}`);
+        });
+      } catch (ex) {
+        console.log('makaranbd: error spawning: ', ex);
+      }
+
+      console.log('makaranbd: done spawining ', server);
 
       // NOTE(mroberts): Always test with Chrome until we can fix Firefox.
       // driver = process.env.BROWSER === 'firefox'

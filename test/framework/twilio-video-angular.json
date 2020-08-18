@@ -1,6 +1,6 @@
 {
   "name": "Angular",
-  "path": "./test/framework/twilio-video-angular",
+  "path": "./twilio-video-angular",
   "host": "localhost",
   "port": 3000,
   "start": {

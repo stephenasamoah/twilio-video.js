@@ -1,0 +1,30 @@
+{
+  "name": "framework-test",
+  "version": "1.0.0",
+  "description": "Framework Tests ensure twilio-video.js works with popular JavaScript frameworks, such as",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test:framework",
+    "test:framework:angular:install": "cd ./twilio-video-angular && rimraf ./node_modules package-lock.json && npm install",
+    "test:framework:angular:run": "mocha ./twilio-video-angular.js",
+    "test:framework:angular": "npm-run-all test:framework:angular:*",
+    "test:framework:no-framework:run": "mocha ./twilio-video-no-framework.js",
+    "test:framework:no-framework": "npm-run-all test:framework:no-framework:*",
+    "test:framework:react:install": "cd twilio-video-react && rimraf ./node_modules package-lock.json && npm install",
+    "test:framework:react:test": "node ./scripts/framework.js twilio-video-react",
+    "test:framework:react:build": "cd ./twilio-video-react && npm run build",
+    "test:framework:react:run": "mocha ./twilio-video-react.js",
+    "test:framework:react": "npm-run-all test:framework:react:*",
+    "test:framework": "npm install && npm-run-all test:framework:angular test:framework:no-framework test:framework:react"
+  },
+  "author": "Makarand Patwardhan <mpatwardhan@twilio.com>",
+  "license": "ISC",
+  "dependencies": {
+    "chromedriver": "^84.0.1",
+    "geckodriver": "^1.20.0",
+    "mocha": "^3.2.0",
+    "npm-run-all": "^4.0.2",
+    "puppeteer": "^5.2.1",
+    "selenium-webdriver": "^4.0.0-alpha.7"
+  }
+}

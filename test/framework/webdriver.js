@@ -7,6 +7,9 @@ const StaleElementReferenceError = require('selenium-webdriver/lib/error').Stale
 const until = require('selenium-webdriver').until;
 const webdriver = require('selenium-webdriver');
 
+const chromedriver = require('chromedriver');
+chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
+
 /**
  * Build a Chrome-based {@link WebDriver}.
  * @returns {WebDriver}

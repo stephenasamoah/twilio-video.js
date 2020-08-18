@@ -1,6 +1,6 @@
 {
   "name": "React",
-  "path": "./test/framework/twilio-video-react",
+  "path": "./twilio-video-react",
   "host": "localhost",
   "port": 4000,
   "start": {
