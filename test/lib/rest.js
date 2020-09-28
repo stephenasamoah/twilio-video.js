@@ -21,13 +21,17 @@ function completeRoom(nameOrSid) {
  * @returns {Promise<Room.SID>}
  */
 async function createRoom(name, type, roomOptions) {
-  const { sid, status } = await rest('/v1/Rooms', Object.assign({
+  const roomResult = await rest('/v1/Rooms', Object.assign({
     Type: type,
     UniqueName: name
   }, roomOptions));
+  const { sid, status } = roomResult;
+
   if (status === 'in-progress') {
     return sid;
   }
+  // eslint-disable-next-line no-console
+  console.log(`Could not create ${type} Room: ${name}`, roomResult);
   throw new Error(`Could not create ${type} Room: ${name}`);
 }
 

@@ -54,6 +54,7 @@ describe('Room', function() {
             sid = await createRoom(randomName(), defaults.topology, { RecordParticipantsOnConnect: enableRecording });
           } catch (ex) {
             console.log('Failed to createRoom: ', ex);
+            throw ex;
           }
           const options = Object.assign({ name: sid, tracks: [] }, defaults);
 
@@ -61,6 +62,7 @@ describe('Room', function() {
             room = await connect(getToken(randomName()), options);
           } catch (ex) {
             console.log('Failed to connect: ', ex);
+            throw ex;
           }
         });
 
