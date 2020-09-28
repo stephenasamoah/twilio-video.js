@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 'use strict';
 
 const assert = require('assert');
@@ -42,16 +43,25 @@ describe('Room', function() {
   // eslint-disable-next-line no-invalid-this
   this.timeout(60000);
 
-  (defaults.topology === 'peer-to-peer' ? describe.skip : describe)('.isRecording', () => {
+  (defaults.topology === 'peer-to-peer' ? describe.skip : describe.only)('.isRecording', () => {
     [true, false].forEach(enableRecording => {
       context(`when recording is ${enableRecording ? 'enabled' : 'disabled'}`, () => {
         let room;
         let sid;
 
         before(async () => {
-          sid = await createRoom(randomName(), defaults.topology, { RecordParticipantsOnConnect: enableRecording });
+          try {
+            sid = await createRoom(randomName(), defaults.topology, { RecordParticipantsOnConnect: enableRecording });
+          } catch (ex) {
+            console.log('Failed to createRoom: ', ex);
+          }
           const options = Object.assign({ name: sid, tracks: [] }, defaults);
-          room = await connect(getToken(randomName()), options);
+
+          try {
+            room = await connect(getToken(randomName()), options);
+          } catch (ex) {
+            console.log('Failed to connect: ', ex);
+          }
         });
 
         it(`should be set to ${enableRecording}`, () => {
